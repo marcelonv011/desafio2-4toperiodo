@@ -27,7 +27,7 @@ public class Main {
                     menuPedido();
                     break;
                 default:
-                    System.out.println("Opcao invalida");
+                    System.out.println("Saindo");
             }
 
         } while (opcao != 3);
@@ -38,6 +38,7 @@ public class Main {
         System.out.println();
         System.out.println("1- Cliente");
         System.out.println("2- Pedido");
+        System.out.println("3- Sair");
 
         return sc.nextInt();
     }
@@ -59,7 +60,7 @@ public class Main {
                     editarCliente();
                     break;
                 default:
-                    System.out.println("Opcao invalida");
+                    System.out.println("Voltando.....");
             }
 
         } while (opcao2 != 4);
@@ -70,6 +71,7 @@ public class Main {
         System.out.println("1- Cadastrar cliente");
         System.out.println("2- Procurar cliente");
         System.out.println("3- Editar cliente");
+        System.out.println("4- Voltar");
 
 
         return sc.nextInt();
@@ -156,6 +158,8 @@ public class Main {
                 System.out.println("Voce entrou no menu de pedidos");
                 System.out.println("1- Realizar pedido");
                 System.out.println("2- Visualizar pedido");
+                System.out.println("3- Editar pedido");
+                System.out.println("4- Voltar");
 
                 return sc.nextInt();
             }
@@ -173,11 +177,14 @@ public class Main {
                 case 2:
                     visualizarPedido();
                     break;
+                case 3:
+                    editarPedido();
+                    break;
                 default:
-                    System.out.println("Opcao invalida");
+                    System.out.println("Voltando.......");
             }
 
-        } while (opcao3 != 3);
+        } while (opcao3 != 4);
     }
 
     private static void realizarPedido(){
@@ -226,6 +233,7 @@ public class Main {
         for (Pedido pedido : pedidos) {
             System.out.println("=======================");
             System.out.println("Nome do Cliente: " + pedido.getCliente().getNome());
+            System.out.println("pedido finalizado?" + pedido.isFinalizado());
             System.out.println("Enderecos:");
             for (Endereco endereco : pedido.getCliente().getEnderecos()) {
                 System.out.println("- Rua: " + endereco.getRua() + ", Numero: " + endereco.getNumero());
@@ -243,7 +251,28 @@ public class Main {
         }
     }
 
-    
+    private static void editarPedido(){
+        System.out.println("Digite o nome do cliente que quer editar seu pedido");
+        String nomeCliente = sc.next();
+        for (Pedido pedido : pedidos) {
+            if (pedido.cliente.getNome().equalsIgnoreCase(nomeCliente)) {
+                System.out.println("Cliente encontrado:");
+                System.out.println("O pedido do cliente é: " + pedido.getProdutos().get(0).getNome());
+                System.out.println("Deseja finalizar o pedido do cliente? (S/N)");
+                String respostaEditarPedido = sc.next();
+                if (respostaEditarPedido.equalsIgnoreCase("S") && !pedido.isFinalizado()) {
+                    pedido.setFinalizado(true);
+                }
+                if (pedido.isFinalizado()) {
+                        reciboTxt(pedido);
+                }
+                System.out.println("Pedido atualizado com sucesso!");
+                return;
+            }
+        }
+        System.out.println("Cliente nao encontrado.");
+    }
+
 
     private static void reciboTxt(Pedido pedido) {
         if (pedido.isFinalizado()) {
