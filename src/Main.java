@@ -223,6 +223,7 @@ public class Main {
         }
     }
 
+
     private static void visualizarPedido() {
         if (pedidos.isEmpty()) {
             System.out.println("nao tem pedidos encontrados.");
@@ -251,6 +252,17 @@ public class Main {
         }
     }
 
+    private static void statusPedidos(List<Pedido> pedidos) {
+        System.out.println("\t\t==============");
+        System.out.println("\t\t\tStatus");
+        System.out.println("\t\t==============\n");
+        System.out.println("Pedidos totais: " + (pedidos.size() == 0 ? "Ainda não há pedidos\n" : pedidos.size()));
+        for (Pedido pedido : pedidos) {
+            System.out.println("Pedidos encerrados: " + (pedido.isFinalizado() == false ? "Ainda não há pedidos encerrados" : pedidos.size()));
+            System.out.println("Pedidos em atendimento: " + (pedido.isFinalizado() == true ? "Ainda não há pedidos em atendimento\n" : pedidos.size() + "\n"));
+            break;
+        }
+    }
     private static void editarPedido(){
         System.out.println("Digite o nome do cliente que quer editar seu pedido");
         String nomeCliente = sc.next();
